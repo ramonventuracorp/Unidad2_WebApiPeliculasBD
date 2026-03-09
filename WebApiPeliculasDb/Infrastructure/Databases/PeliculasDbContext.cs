@@ -30,6 +30,35 @@ namespace WebApiPeliculasDb.Infrastructure.Databases
                 entity.Property(x => x.Sinopsis)
                 .HasColumnName("Sinopsis")
                 .HasColumnType("VARCHAR(500)");
+
+                entity.Property(x => x.FechaEstreno)
+                .HasColumnName("FechaEstreno")
+                .HasColumnType("Datetime");
+
+                entity.Property(x => x.Puntuacion)
+                .HasColumnName("Puntuacion")
+                .HasColumnType("INT");
+
+                entity.Property(x => x.CategoriaId)
+                .HasColumnName("CategoriaId")
+                .HasColumnType("INT");
+
+
+            });
+
+            // Mapeo de tabla de categorias
+            modelBuilder.Entity<Categoria>(entity =>
+            {
+                entity.ToTable("Categorias");
+                entity.HasKey(x => x.Id);
+
+                entity.Property(x => x.Id)
+                .HasColumnName("Id")
+                .HasColumnType("INT");
+
+                entity.Property(x => x.Nombre)
+                .HasColumnName("Nombre")
+                .HasColumnType("VARCHAR(250)");
             });
         }
     }

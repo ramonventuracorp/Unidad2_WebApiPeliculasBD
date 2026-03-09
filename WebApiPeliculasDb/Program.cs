@@ -1,9 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using WebApiPeliculasDb.Infrastructure.Databases;
+using WebApiPeliculasDb.Infrastructure.Interfaces;
+using WebApiPeliculasDb.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Base de datos
+builder.Services.AddDbContext<PeliculasDbContext>(
+    options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString(
+            "DbPeliculasConnectionString"
+        )
+    )
+ );
 
 // Servicios
-
+builder.Services.AddScoped<
+    IPeliculaRepository, 
+    PeliculasRepository>();
 
 // Add services to the container.
 

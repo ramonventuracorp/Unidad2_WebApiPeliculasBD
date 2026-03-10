@@ -27,6 +27,10 @@ namespace WebApiPeliculasDb.Infrastructure.Databases
                 .HasColumnName("Id")
                 .HasColumnType("INT");
 
+                entity.Property(x => x.Nombre)
+                .HasColumnName("Nombre")
+                .HasColumnType("VARCHAR(250)");
+
                 entity.Property(x => x.Sinopsis)
                 .HasColumnName("Sinopsis")
                 .HasColumnType("VARCHAR(500)");

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using WebApiPeliculasDb.Features.Peliculas.AppServices;
+using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Databases;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Repositories;
@@ -15,10 +17,14 @@ builder.Services.AddDbContext<PeliculasDbContext>(
     )
  );
 
-// Servicios
+// Inyeccion de dependencias de servicios
 builder.Services.AddScoped<
     IPeliculaRepository, 
     PeliculasRepository>();
+
+builder.Services.AddScoped<
+    IPeliculasAppService, 
+    PeliculasAppService>();
 
 // Add services to the container.
 

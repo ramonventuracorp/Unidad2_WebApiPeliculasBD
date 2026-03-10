@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiPeliculasDb.Entities;
+using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
 
 namespace WebApiPeliculasDb.Controllers
@@ -9,19 +10,35 @@ namespace WebApiPeliculasDb.Controllers
     [ApiController]
     public class PeliculasController : ControllerBase
     {
-        private readonly IPeliculaRepository peliculaRepository;
-        public PeliculasController(IPeliculaRepository peliculaRepository)
+        private readonly IPeliculasAppService peliculasAppService;
+        public PeliculasController(IPeliculasAppService peliculasAppService)
         {
-            this.peliculaRepository = peliculaRepository;
+            this.peliculasAppService = peliculasAppService;
         }
 
         [HttpGet]
         public async Task<IActionResult> ObtenerPeliculas()
         {
             List<Pelicula> peliculas = 
-                await peliculaRepository.ObtenerPeliculas();
+                await peliculasAppService.ObtenerPeliculas();
 
             return Ok(peliculas);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarPelicula(
+            [FromBody] Pelicula pelicula)
+        {
+            await peliculasAppService.GuardarPelicula(pelicula);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ActualizarPelicula(
+            [FromBody] Pelicula pelicula)
+        {
+            await peliculasAppService.ActualizarPelicula(pelicula);
+            return Ok("Pelicula Actualizada");
         }
     }
 }

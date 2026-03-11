@@ -8,5 +8,7 @@
         public DateTime FechaEstreno { get; set; }
         public int Puntuacion { get; set; }
         public int CategoriaId { get; set; }
+        public bool Activo { get; set; }
+        public DateTime FechaAgrega { get; set; }
     }
 }

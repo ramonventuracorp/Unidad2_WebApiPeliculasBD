@@ -25,6 +25,16 @@ namespace WebApiPeliculasDb.Controllers
             return Ok(peliculas);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> ObtenerPeliculaPorId([FromRoute] int id)
+        {
+            Pelicula pelicula =
+                await peliculasAppService.ObtenerPeliculaPorId(id);
+
+            return Ok(pelicula);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GuardarPelicula(
             [FromBody] Pelicula pelicula)
@@ -39,6 +49,15 @@ namespace WebApiPeliculasDb.Controllers
         {
             await peliculasAppService.ActualizarPelicula(pelicula);
             return Ok("Pelicula Actualizada");
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> InactivarPelicula([FromRoute] int id)
+        {
+            await peliculasAppService.InactivarPelicula(id);
+
+            return Ok("Registro Inactivado");
         }
     }
 }

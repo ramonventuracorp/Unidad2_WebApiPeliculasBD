@@ -24,13 +24,21 @@ namespace WebApiPeliculasDb.Infrastructure.Repositories
             peliculaExistente.Nombre = pelicula.Nombre;
             peliculaExistente.Sinopsis = pelicula.Sinopsis;
             peliculaExistente.Puntuacion = pelicula.Puntuacion;
+            peliculaExistente.Activo = pelicula.Activo;
 
             await peliculasDbContext.SaveChangesAsync();
         }
 
-        public Task EliminarPelicula(int id)
+        public async Task EliminarPelicula(int id)
         {
-            throw new NotImplementedException();
+            // Encontrar registro existente
+            Pelicula peliculaExistente =
+                peliculasDbContext.Peliculas
+                .FirstOrDefault(x => x.Id == id)!;
+
+            peliculaExistente.Activo = false;
+
+            await peliculasDbContext.SaveChangesAsync();
         }
 
         public async Task GuardarPelicula(Pelicula pelicula)
@@ -39,9 +47,13 @@ namespace WebApiPeliculasDb.Infrastructure.Repositories
             await peliculasDbContext.SaveChangesAsync();
         }
 
-        public Task<Pelicula> ObtenerPeliculaPorId(int id)
+        public async Task<Pelicula> ObtenerPeliculaPorId(int id)
         {
-            throw new NotImplementedException();
+
+            Pelicula? pelicula = 
+                await peliculasDbContext.Peliculas.FirstOrDefaultAsync(x => x.Id == id);
+
+            return pelicula ?? new Pelicula();
         }
 
         public async Task<List<Pelicula>> ObtenerPeliculas()

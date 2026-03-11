@@ -47,6 +47,15 @@ namespace WebApiPeliculasDb.Infrastructure.Databases
                 .HasColumnName("CategoriaId")
                 .HasColumnType("INT");
 
+                entity.Property(x => x.Activo)
+                .HasColumnName("Activo")
+                .HasColumnType("BIT")
+                .HasDefaultValue(true);
+
+                entity.Property(x => x.FechaAgrega)
+                .HasColumnName("FechaAgrega")
+                .HasColumnType("DATETIME")
+                .HasDefaultValue(DateTime.Now);
 
             });
 
@@ -63,6 +72,17 @@ namespace WebApiPeliculasDb.Infrastructure.Databases
                 entity.Property(x => x.Nombre)
                 .HasColumnName("Nombre")
                 .HasColumnType("VARCHAR(250)");
+
+                entity.Property(x => x.Activo)
+                .HasColumnName("Activo")
+                .HasColumnType("BIT")
+                .HasDefaultValue(true);
+
+                entity.Property(x => x.FechaAgrega)
+                .HasColumnName("FechaAgrega")
+                .HasColumnType("DATETIME")
+                .HasDefaultValue(DateTime.Now);
+
             });
         }
     }

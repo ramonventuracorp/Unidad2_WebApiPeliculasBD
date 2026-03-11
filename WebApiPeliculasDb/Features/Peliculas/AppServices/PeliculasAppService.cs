@@ -22,6 +22,16 @@ namespace WebApiPeliculasDb.Features.Peliculas.AppServices
             await peliculaRepository.GuardarPelicula(pelicula);
         }
 
+        public async Task InactivarPelicula(int id)
+        {
+            await peliculaRepository.EliminarPelicula(id);
+        }
+
+        public async Task<Pelicula> ObtenerPeliculaPorId(int id)
+        {
+            return await peliculaRepository.ObtenerPeliculaPorId(id);
+        }
+
 
         // Metodo para listar peliculas
         public async Task<List<Pelicula>> ObtenerPeliculas()

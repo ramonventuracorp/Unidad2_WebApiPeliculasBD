@@ -7,5 +7,7 @@ namespace WebApiPeliculasDb.Features.Peliculas.Interfaces
         Task<List<Pelicula>> ObtenerPeliculas();
         Task GuardarPelicula(Pelicula pelicula);
         Task ActualizarPelicula(Pelicula pelicula);
+        Task<Pelicula> ObtenerPeliculaPorId(int id);
+        Task InactivarPelicula(int id);
     }
 }

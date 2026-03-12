@@ -1,11 +1,12 @@
-﻿using WebApiPeliculasDb.Entities;
+﻿using WebApiPeliculasDb.Commons.Models;
+using WebApiPeliculasDb.Entities;
 
 namespace WebApiPeliculasDb.Features.Peliculas.Interfaces
 {
     public interface IPeliculasAppService
     {
         Task<List<Pelicula>> ObtenerPeliculas();
-        Task GuardarPelicula(Pelicula pelicula);
+        Task<ApiResponse<Pelicula>> GuardarPelicula(Pelicula pelicula);
         Task ActualizarPelicula(Pelicula pelicula);
         Task<Pelicula> ObtenerPeliculaPorId(int id);
         Task InactivarPelicula(int id);

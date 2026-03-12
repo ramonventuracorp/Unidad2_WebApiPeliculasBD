@@ -39,8 +39,8 @@ namespace WebApiPeliculasDb.Controllers
         public async Task<IActionResult> GuardarPelicula(
             [FromBody] Pelicula pelicula)
         {
-            await peliculasAppService.GuardarPelicula(pelicula);
-            return Ok();
+            var respuesta = await peliculasAppService.GuardarPelicula(pelicula);
+            return Ok(respuesta);
         }
 
         [HttpPut]

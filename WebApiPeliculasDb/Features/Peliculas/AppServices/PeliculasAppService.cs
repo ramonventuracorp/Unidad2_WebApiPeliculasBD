@@ -1,4 +1,6 @@
-﻿using WebApiPeliculasDb.Entities;
+﻿using WebApiPeliculasDb.Commons.Models;
+using WebApiPeliculasDb.Entities;
+using WebApiPeliculasDb.Features.Peliculas.DomainServices;
 using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
 
@@ -7,9 +9,15 @@ namespace WebApiPeliculasDb.Features.Peliculas.AppServices
     public class PeliculasAppService: IPeliculasAppService
     {
         private readonly IPeliculaRepository peliculaRepository;
-        public PeliculasAppService(IPeliculaRepository peliculaRepository)
+        private readonly ICategoriasRepository categoriasRepository;
+        private readonly PeliculasDomainService peliculasDomainService;
+        public PeliculasAppService(IPeliculaRepository peliculaRepository, 
+            PeliculasDomainService peliculasDomainService, 
+            ICategoriasRepository categoriasRepository)
         {
             this.peliculaRepository = peliculaRepository;
+            this.peliculasDomainService = peliculasDomainService;
+            this.categoriasRepository = categoriasRepository;
         }
 
         public async Task ActualizarPelicula(Pelicula pelicula)
@@ -17,9 +25,26 @@ namespace WebApiPeliculasDb.Features.Peliculas.AppServices
             await peliculaRepository.ActualizarPelicula(pelicula);
         }
 
-        public async Task GuardarPelicula(Pelicula pelicula)
+        public async Task<ApiResponse<Pelicula>> GuardarPelicula(Pelicula pelicula)
         {
-            await peliculaRepository.GuardarPelicula(pelicula);
+            ApiResponse<Pelicula> apiResponseResult =
+                peliculasDomainService.GuardarPelicula(pelicula);
+            try
+            {
+                if (apiResponseResult.Success)
+                {
+                    await peliculaRepository.GuardarPelicula(pelicula);
+                }
+
+                return apiResponseResult;
+            }
+            catch (Exception ex)
+            {
+                apiResponseResult.Success = false;
+                apiResponseResult.Message = ex.Message;
+                return apiResponseResult;
+            }
+
         }
 
         public async Task InactivarPelicula(int id)
@@ -36,6 +61,19 @@ namespace WebApiPeliculasDb.Features.Peliculas.AppServices
         // Metodo para listar peliculas
         public async Task<List<Pelicula>> ObtenerPeliculas()
         {
+            List<Categoria> categorias = await categoriasRepository.ObtenerCategorias();
+            List<Pelicula> peliculas = await peliculaRepository.ObtenerPeliculas();
+
+            var peliculasConCategoria =
+                (from p in peliculas
+                 join c in categorias on p.CategoriaId equals c.Id
+                 select new
+                 {
+                     p.Sinopsis,
+                     p.Puntuacion,
+                     c.Nombre,
+                 }).ToList();
+
             return await peliculaRepository.ObtenerPeliculas();
         }
     }

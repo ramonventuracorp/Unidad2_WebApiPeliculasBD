@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiPeliculasDb.Features.Peliculas.AppServices;
+using WebApiPeliculasDb.Features.Peliculas.DomainServices;
 using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Databases;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
@@ -23,8 +24,14 @@ builder.Services.AddScoped<
     PeliculasRepository>();
 
 builder.Services.AddScoped<
+    ICategoriasRepository,
+    CategoriasRepository>();
+
+builder.Services.AddScoped<
     IPeliculasAppService, 
     PeliculasAppService>();
+
+builder.Services.AddScoped<PeliculasDomainService>();
 
 // Add services to the container.
 

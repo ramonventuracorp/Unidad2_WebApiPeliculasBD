@@ -1,5 +1,6 @@
 ﻿using WebApiPeliculasDb.Commons.Models;
 using WebApiPeliculasDb.Entities;
+using WebApiPeliculasDb.Features.Peliculas.Dtos;
 
 namespace WebApiPeliculasDb.Features.Peliculas.Interfaces
 {
@@ -10,5 +11,6 @@ namespace WebApiPeliculasDb.Features.Peliculas.Interfaces
         Task ActualizarPelicula(Pelicula pelicula);
         Task<Pelicula> ObtenerPeliculaPorId(int id);
         Task InactivarPelicula(int id);
+        Task<List<PeliculaDto>> ObtenerPeliculasParaUsuario();
     }
 }

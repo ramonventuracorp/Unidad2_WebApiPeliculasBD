@@ -1,6 +1,7 @@
 ﻿using WebApiPeliculasDb.Commons.Models;
 using WebApiPeliculasDb.Entities;
 using WebApiPeliculasDb.Features.Peliculas.DomainServices;
+using WebApiPeliculasDb.Features.Peliculas.Dtos;
 using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
 
@@ -61,20 +62,27 @@ namespace WebApiPeliculasDb.Features.Peliculas.AppServices
         // Metodo para listar peliculas
         public async Task<List<Pelicula>> ObtenerPeliculas()
         {
+            return await peliculaRepository.ObtenerPeliculas();
+        }
+
+        public async Task<List<PeliculaDto>> ObtenerPeliculasParaUsuario()
+        {
             List<Categoria> categorias = await categoriasRepository.ObtenerCategorias();
             List<Pelicula> peliculas = await peliculaRepository.ObtenerPeliculas();
 
             var peliculasConCategoria =
-                (from p in peliculas
-                 join c in categorias on p.CategoriaId equals c.Id
-                 select new
-                 {
-                     p.Sinopsis,
-                     p.Puntuacion,
-                     c.Nombre,
-                 }).ToList();
+                (
+                    from p in peliculas
+                    join c in categorias on p.CategoriaId equals c.Id
+                    select new PeliculaDto
+                    {
+                        Nombre = p.Nombre,
+                        Sinopsis = p.Sinopsis,
+                        Categoria = c.Nombre,
+                    }
+                ).ToList();
 
-            return await peliculaRepository.ObtenerPeliculas();
+            return peliculasConCategoria;
         }
     }
 }

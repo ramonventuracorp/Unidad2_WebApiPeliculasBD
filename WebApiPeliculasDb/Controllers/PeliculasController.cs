@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiPeliculasDb.Entities;
+using WebApiPeliculasDb.Features.Peliculas.Dtos;
 using WebApiPeliculasDb.Features.Peliculas.Interfaces;
 using WebApiPeliculasDb.Infrastructure.Interfaces;
 
@@ -23,6 +24,15 @@ namespace WebApiPeliculasDb.Controllers
                 await peliculasAppService.ObtenerPeliculas();
 
             return Ok(peliculas);
+        }
+
+        [HttpGet]
+        [Route("ObtenerPeliculasParaUsuario")]
+        public async Task<IActionResult> ObtenerPeliculasParaUsuario()
+        {
+            List<PeliculaDto> peliculaDtos =
+                await peliculasAppService.ObtenerPeliculasParaUsuario();
+            return Ok(peliculaDtos);
         }
 
         [HttpGet]

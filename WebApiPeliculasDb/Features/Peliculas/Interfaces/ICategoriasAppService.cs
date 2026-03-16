@@ -1,8 +1,8 @@
 ﻿using WebApiPeliculasDb.Entities;
 
-namespace WebApiPeliculasDb.Infrastructure.Interfaces
+namespace WebApiPeliculasDb.Features.Peliculas.Interfaces
 {
-    public interface ICategoriasRepository
+    public interface ICategoriasAppService
     {
         Task<List<Categoria>> ObtenerCategorias();
         Task GuardarCategoria(Categoria categoria);

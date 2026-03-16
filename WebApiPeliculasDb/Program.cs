@@ -18,19 +18,27 @@ builder.Services.AddDbContext<PeliculasDbContext>(
     )
  );
 
-// Inyeccion de dependencias de servicios
+// INYECCION DE DEPENDENCIAS DE SERVICIOS
+
+// Servicios para las peliculas
 builder.Services.AddScoped<
     IPeliculaRepository, 
     PeliculasRepository>();
 
 builder.Services.AddScoped<
+    IPeliculasAppService, 
+    PeliculasAppService>();
+
+// Servicios para las categorias
+builder.Services.AddScoped<
     ICategoriasRepository,
     CategoriasRepository>();
 
 builder.Services.AddScoped<
-    IPeliculasAppService, 
-    PeliculasAppService>();
+    ICategoriasAppService,
+    CategoriasAppService>();
 
+// Servicios de dominio
 builder.Services.AddScoped<PeliculasDomainService>();
 
 // Add services to the container.

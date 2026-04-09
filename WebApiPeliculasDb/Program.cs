@@ -8,6 +8,18 @@ using WebApiPeliculasDb.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configurando cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Base de datos
 builder.Services.AddDbContext<PeliculasDbContext>(
     options =>
@@ -48,6 +60,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+// Utilizar politica de CORS
+app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
